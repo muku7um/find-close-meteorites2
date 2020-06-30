@@ -17,18 +17,19 @@ def calc_dist(lat1, lon1, lat2, lon2):
 def get_dist(meteor):
     return meteor.get('distance', math.inf)
 
-my_loc = (12.971606, 77.594376)
+if __name__ == '__main__':
+    my_loc = (12.971606, 77.594376)
 
-meteor_resp = requests.get('https://data.nasa.gov/resource/y77d-th95.json')
-meteor_data = meteor_resp.json()
+    meteor_resp = requests.get('https://data.nasa.gov/resource/y77d-th95.json')
+    meteor_data = meteor_resp.json()
 
-for meteor in meteor_data:
-    if not ('reclat' in meteor and 'reclong' in meteor): continue
-    meteor['distance'] = calc_dist(float(meteor['reclat']),
-                                   float(meteor['reclong']),
-                                   my_loc[0],
-                                   my_loc[1])
+    for meteor in meteor_data:
+        if not ('reclat' in meteor and 'reclong' in meteor): continue
+        meteor['distance'] = calc_dist(float(meteor['reclat']),
+                                       float(meteor['reclong']),
+                                       my_loc[0],
+                                       my_loc[1])
 
-meteor_data.sort(key=get_dist)
+    meteor_data.sort(key=get_dist)
 
-print(meteor_data[0:10])
+    print(meteor_data[0:10])
